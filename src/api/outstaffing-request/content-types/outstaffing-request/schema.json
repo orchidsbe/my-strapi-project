@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "outstaffing_requests",
+  "info": {
+    "singularName": "outstaffing-request",
+    "pluralName": "outstaffing-requests",
+    "displayName": "Аутстаффинг функций"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "userFunctions": {
+      "type": "text"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}

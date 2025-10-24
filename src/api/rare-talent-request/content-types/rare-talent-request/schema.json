@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rare_talent_requests",
+  "info": {
+    "singularName": "rare-talent-request",
+    "pluralName": "rare-talent-requests",
+    "displayName": "Подбор редких специалистов"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "agreed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

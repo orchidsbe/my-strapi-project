@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "learning_programs",
+  "info": {
+    "singularName": "learning-program",
+    "pluralName": "learning-programs",
+    "displayName": "Обучение и развитие персонала"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "task": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "agreed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "callback_requests",
+  "info": {
+    "singularName": "callback-request",
+    "pluralName": "callback-requests",
+    "displayName": "Миссия"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "company": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

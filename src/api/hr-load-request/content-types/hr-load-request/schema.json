@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hr_load_requests",
+  "info": {
+    "singularName": "hr-load-request",
+    "pluralName": "hr-load-requests",
+    "displayName": "Снижение кадровой нагрузки"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "task": {
+      "type": "string",
+      "required": true
+    },
+    "agreed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

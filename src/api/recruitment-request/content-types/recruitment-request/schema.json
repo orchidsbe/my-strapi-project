@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recruitment_requests",
+  "info": {
+    "singularName": "recruitment-request",
+    "pluralName": "recruitment-requests",
+    "displayName": "Подбор персонала"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "agreed": {
+      "type": "boolean"
+    }
+  }
+}

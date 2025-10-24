@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reliability_requests",
+  "info": {
+    "singularName": "reliability-request",
+    "pluralName": "reliability-requests",
+    "displayName": "Надежные кадровые решения"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    }
+  }
+}

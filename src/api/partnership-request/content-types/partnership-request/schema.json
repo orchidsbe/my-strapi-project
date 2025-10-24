@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partnership_requests",
+  "info": {
+    "singularName": "partnership-request",
+    "pluralName": "partnership-requests",
+    "displayName": "Сотрудничество"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

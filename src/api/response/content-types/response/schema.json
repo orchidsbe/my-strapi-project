@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "responses",
+  "info": {
+    "singularName": "response",
+    "pluralName": "responses",
+    "displayName": "Вакансии INTERIM"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "vacancyTitle": {
+      "type": "string"
+    },
+    "vacancyLocation": {
+      "type": "string"
+    }
+  }
+}

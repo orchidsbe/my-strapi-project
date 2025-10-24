@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "about_page_requests",
+  "info": {
+    "singularName": "about-page-request",
+    "pluralName": "about-page-requests",
+    "displayName": "О нас"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

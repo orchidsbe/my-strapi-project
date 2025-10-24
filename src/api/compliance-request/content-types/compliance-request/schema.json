@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "compliance_requests",
+  "info": {
+    "singularName": "compliance-request",
+    "pluralName": "compliance-requests",
+    "displayName": "Соблюдение трудового законодательства"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}

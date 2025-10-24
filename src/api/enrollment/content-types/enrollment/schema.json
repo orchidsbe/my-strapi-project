@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "enrollments",
+  "info": {
+    "singularName": "enrollment",
+    "pluralName": "enrollments",
+    "displayName": "Обучение INTERIM/ Корпоративное обучение"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "contactPerson": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "text"
+    },
+    "source": {
+      "type": "string"
+    }
+  }
+}

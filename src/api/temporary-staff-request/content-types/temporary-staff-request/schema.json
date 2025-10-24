@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "temporary_staff_requests",
+  "info": {
+    "singularName": "temporary-staff-request",
+    "pluralName": "temporary-staff-requests",
+    "displayName": "Временный персонал"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "task": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}

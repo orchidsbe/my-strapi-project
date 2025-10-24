@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "application_requests",
+  "info": {
+    "singularName": "application-request",
+    "pluralName": "application-requests",
+    "displayName": "Оставить заявку"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "position": {
+      "type": "string"
+    },
+    "message": {
+      "type": "blocks"
+    },
+    "consent": {
+      "type": "boolean"
+    }
+  }
+}

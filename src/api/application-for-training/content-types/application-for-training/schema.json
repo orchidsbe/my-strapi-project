@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "applications_for_trainings",
+  "info": {
+    "singularName": "application-for-training",
+    "pluralName": "applications-for-trainings",
+    "displayName": "Обучение INTERIM/Каталог программ"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "trainingTitle": {
+      "type": "string"
+    },
+    "trainingPrice": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "tariff": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "text"
+    },
+    "source": {
+      "type": "string"
+    }
+  }
+}

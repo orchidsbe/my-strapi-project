@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hr_consulting_requests",
+  "info": {
+    "singularName": "hr-consulting-request",
+    "pluralName": "hr-consulting-requests",
+    "displayName": "HR-консалтинг"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "userRequest": {
+      "type": "text",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    }
+  }
+}

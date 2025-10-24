@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "События INTERIM"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "tz": {
+      "type": "string"
+    },
+    "start": {
+      "type": "datetime"
+    },
+    "end": {
+      "type": "datetime"
+    },
+    "views": {
+      "type": "integer"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "desc": {
+      "type": "blocks"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "regUrl": {
+      "type": "string"
+    },
+    "venue": {
+      "type": "string"
+    }
+  }
+}

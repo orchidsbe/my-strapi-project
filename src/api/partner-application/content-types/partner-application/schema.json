@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partner_applications",
+  "info": {
+    "singularName": "partner-application",
+    "pluralName": "partner-applications",
+    "displayName": "Партнёрства INTERIM"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company": {
+      "type": "string"
+    },
+    "contactPerson": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "website": {
+      "type": "string"
+    },
+    "partnershipType": {
+      "type": "string"
+    },
+    "collaborationIdea": {
+      "type": "text"
+    }
+  }
+}

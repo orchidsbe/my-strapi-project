@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services_requests",
+  "info": {
+    "singularName": "services-request",
+    "pluralName": "services-requests",
+    "displayName": "Услуги"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "service": {
+      "type": "string"
+    }
+  }
+}

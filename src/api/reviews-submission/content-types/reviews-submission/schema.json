@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews_submissions",
+  "info": {
+    "singularName": "reviews-submission",
+    "pluralName": "reviews-submissions",
+    "displayName": "Отзывы клиентов"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "integer"
+    },
+    "review_text": {
+      "type": "text"
+    },
+    "source": {
+      "type": "string"
+    }
+  }
+}

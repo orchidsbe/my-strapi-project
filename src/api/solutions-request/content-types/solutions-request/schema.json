@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "solutions_requests",
+  "info": {
+    "singularName": "solutions-request",
+    "pluralName": "solutions-requests",
+    "displayName": "Решения для роста и успеха"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "corporate_solutions_requests",
+  "info": {
+    "singularName": "corporate-solutions-request",
+    "pluralName": "corporate-solutions-requests",
+    "displayName": "Решения для работодателей"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

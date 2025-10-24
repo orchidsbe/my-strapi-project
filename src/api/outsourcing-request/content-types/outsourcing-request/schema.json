@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "outsourcing_requests",
+  "info": {
+    "singularName": "outsourcing-request",
+    "pluralName": "outsourcing-requests",
+    "displayName": "Аутсорсинг функций"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "processes": {
+      "type": "text"
+    },
+    "email": {
+      "type": "email"
+    }
+  }
+}
