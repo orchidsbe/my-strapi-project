@@ -1,21 +1,39 @@
+import nodemailer from 'nodemailer';
+
 export default {
-  async afterCreate(event: any) {
+  async afterCreate(event) {
     const { result } = event;
 
-    if (!result.email) return;
+    strapi.log.info('afterCreate lifecycle сработал', result);
 
     try {
-      await strapi.plugin('email').service('email').send({
-        to: result.email,
-        from: 'no-reply@yourdomain.com',
-        subject: 'Спасибо за вашу заявку',
-        text: `Здравствуйте, ${result.name || ''}! Ваша заявка принята.`,
-        html: `<p>Здравствуйте, <strong>${result.name || ''}</strong>! Ваша заявка принята.</p>`,
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT, 10),
+        secure: false,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
       });
 
-      strapi.log.info(`Email успешно отправлен на ${result.email}`);
+      await transporter.sendMail({
+        from: process.env.SMTP_FROM,
+        to: 'info@interimjob.ru',
+        subject: 'Новая заявка с сайта Interimjob',
+        html: `
+          <h2>Новая заявка с сайта</h2>
+          <p><strong>Имя:</strong> ${result.name}</p>
+          <p><strong>Email:</strong> ${result.email}</p>
+          <p><strong>Телефон:</strong> ${result.phone}</p>
+          <p><strong>Должность:</strong> ${result.role}</p>
+        `,
+      });
+
+      strapi.log.info(`Email отправлен на info@interimjob.ru`);
+
     } catch (err) {
-      strapi.log.error('Ошибка при отправке email:', err);
+      strapi.log.error('Ошибка отправки email:', err);
     }
   },
 };
