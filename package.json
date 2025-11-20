@@ -20,6 +20,7 @@
     "@strapi/provider-email-nodemailer": "^5.31.0",
     "@strapi/strapi": "5.23.4",
     "better-sqlite3": "11.3.0",
+    "csstype": "3.2.3",
     "nodemailer": "^7.0.10",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -30,7 +31,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18.0.0 <=22.x.x",
