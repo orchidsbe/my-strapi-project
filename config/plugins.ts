@@ -3,13 +3,13 @@ module.exports = ({ env }) => ({
     config: {
       provider: 'smtp',
       providerOptions: {
-        host: env('SMTP_HOST', 'mail.interimjob.ru'), // <-- новый сервер
+        host: env('SMTP_HOST', 'mail.interimjob.ru'),
         port: env('SMTP_PORT', 587),
         auth: {
           user: env('SMTP_USERNAME', 'info@interimjob.ru'),
           pass: env('SMTP_PASSWORD'),
         },
-        // secure: false, // оставляем false для STARTTLS на 587
+        secure: false, 
       },
       settings: {
         defaultFrom: env('SMTP_FROM', 'info@interimjob.ru'),
