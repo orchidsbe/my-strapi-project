@@ -25,6 +25,10 @@
     },
     "message": {
       "type": "text"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

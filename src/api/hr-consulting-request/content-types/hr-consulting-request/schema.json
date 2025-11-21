@@ -26,6 +26,10 @@
     "email": {
       "type": "email",
       "required": true
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

@@ -37,6 +37,10 @@
     },
     "goal": {
       "type": "text"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

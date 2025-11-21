@@ -25,6 +25,10 @@
     },
     "consent": {
       "type": "boolean"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

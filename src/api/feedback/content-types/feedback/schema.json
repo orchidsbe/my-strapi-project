@@ -28,6 +28,10 @@
     },
     "submittedAt": {
       "type": "time"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

@@ -26,6 +26,10 @@
     "question": {
       "type": "text",
       "required": true
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

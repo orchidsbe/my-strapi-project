@@ -26,6 +26,10 @@
     "agreed": {
       "type": "boolean"
     },
+    "formName": {
+      "type": "string",
+      "default": "Подбор персонала"
+    },
     "emailSent": {
       "type": "boolean",
       "default": false

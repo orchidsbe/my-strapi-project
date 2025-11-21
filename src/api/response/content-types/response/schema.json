@@ -31,6 +31,10 @@
     },
     "vacancyLocation": {
       "type": "string"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

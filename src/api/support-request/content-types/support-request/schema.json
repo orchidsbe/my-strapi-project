@@ -19,6 +19,10 @@
     },
     "email": {
       "type": "email"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }

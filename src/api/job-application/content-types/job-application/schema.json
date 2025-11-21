@@ -25,6 +25,10 @@
     },
     "experienceSummary": {
       "type": "text"
+    },
+    "formName": {
+      "type": "string",
+      "required": true
     }
   }
 }
