@@ -4,36 +4,64 @@ export default {
   async afterCreate(event) {
     const { result } = event;
 
-    strapi.log.info('afterCreate lifecycle сработал', result);
+    strapi.log.info('afterCreate triggered for ID:', result.id);
 
-    try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_PORT, 10),
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USERNAME,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      });
+    // Проверяем поле emailSent, чтобы не отправлять письмо дважды
+    if (!result.emailSent) {
+      try {
+        const transporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST,
+          port: parseInt(process.env.SMTP_PORT, 10),
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USERNAME,
+            pass: process.env.SMTP_PASSWORD,
+          },
+        });
 
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM,
-        to: 'info@interimjob.ru',
-        subject: 'Новая заявка с сайта Interimjob',
-        html: `
-          <h2>Новая заявка с сайта</h2>
-          <p><strong>Имя:</strong> ${result.name}</p>
-          <p><strong>Email:</strong> ${result.email}</p>
-          <p><strong>Телефон:</strong> ${result.phone}</p>
-          <p><strong>Должность:</strong> ${result.role}</p>
-        `,
-      });
+        const mailHtml = `
+          <h2>Новая заявка на подбор персонала</h2>
+          <table style="border-collapse: collapse; width: 100%;">
+            <tr>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Имя</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Email</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Телефон</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.phone}</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Должность</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.role}</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Согласие на обработку данных</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.agreed ? 'Да' : 'Нет'}</td>
+            </tr>
+          </table>
+        `;
 
-      strapi.log.info(`Email отправлен на info@interimjob.ru`);
+        await transporter.sendMail({
+          from: process.env.SMTP_FROM,
+          to: 'info@interimjob.ru',
+          subject: 'Новая заявка на подбор персонала',
+          html: mailHtml,
+        });
 
-    } catch (err) {
-      strapi.log.error('Ошибка отправки email:', err);
+        // Обновляем запись в Strapi, чтобы больше не отправлять письмо
+        await strapi.db.query('api::recruitment-request.recruitment-request').update({
+          where: { id: result.id },
+          data: { emailSent: true },
+        });
+
+        strapi.log.info(`Email отправлен на info@interimjob.ru`);
+      } catch (err) {
+        strapi.log.error('Ошибка отправки email:', err);
+      }
     }
   },
 };

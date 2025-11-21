@@ -1,7 +1,23 @@
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
 module.exports = ({ env }) => ({
   email: {
     config: {
-      provider: 'nodemailer',
+      provider: 'smtp',
       providerOptions: {
         host: env('SMTP_HOST', 'mail.netangels.ru'),
         port: env('SMTP_PORT', 587),
@@ -12,6 +28,7 @@ module.exports = ({ env }) => ({
         secure: false,
         tls: {
           rejectUnauthorized: false,
+          checkServerIdentity: () => undefined,
         },
       },
       settings: {

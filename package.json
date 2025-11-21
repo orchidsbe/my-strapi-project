@@ -17,7 +17,7 @@
   "dependencies": {
     "@strapi/plugin-cloud": "5.23.4",
     "@strapi/plugin-users-permissions": "5.23.4",
-    "@strapi/provider-email-nodemailer": "^5.31.0",
+    "@strapi/provider-email-nodemailer": "^5.31.2",
     "@strapi/strapi": "5.23.4",
     "better-sqlite3": "11.3.0",
     "csstype": "3.2.3",
@@ -25,6 +25,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "strapi-provider-email-smtp": "^1.0.3",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {

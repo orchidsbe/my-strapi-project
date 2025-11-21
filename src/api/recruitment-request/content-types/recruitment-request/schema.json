@@ -25,6 +25,10 @@
     },
     "agreed": {
       "type": "boolean"
+    },
+    "emailSent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
