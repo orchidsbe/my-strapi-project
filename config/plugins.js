@@ -12,7 +12,6 @@ module.exports = ({ env }) => ({
         secure: false,
         tls: {
           rejectUnauthorized: false,
-          checkServerIdentity: () => undefined,
         },
       },
       settings: {
