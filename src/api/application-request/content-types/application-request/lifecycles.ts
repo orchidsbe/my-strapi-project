@@ -4,14 +4,17 @@ export default {
   async afterCreate(event) {
     const { result } = event;
 
-    strapi.log.info('Application afterCreate triggered for ID:', result.id);
+    const mailSubjectName = result.formName || 'Общая заявка';
+
+    const timestamp = new Date().toISOString();
+    strapi.log.info(`[${timestamp}] afterCreate triggered for application-request ID: ${result.id}`);
 
     if (!result.emailSent) {
       try {
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT, 10),
-          secure: false,
+          secure: process.env.SMTP_SECURE === 'true',
           auth: {
             user: process.env.SMTP_USERNAME,
             pass: process.env.SMTP_PASSWORD,
@@ -19,22 +22,24 @@ export default {
         });
 
         const mailHtml = `
-          <h2>Новая заявка: ${result.formName}</h2>
+          <h2>Новая заявка: ${mailSubjectName}</h2>
+          <p>ID заявки: ${result.id}</p>
           <table style="border-collapse: collapse; width: 100%;">
-            ${result.name ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Имя</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.name}</td></tr>` : ''}
-            ${result.email ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Email</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.email}</td></tr>` : ''}
-            ${result.phone ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Телефон</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.phone}</td></tr>` : ''}
-            ${result.company ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Компания</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.company}</td></tr>` : ''}
-            ${result.position ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Должность</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.position}</td></tr>` : ''}
-            ${result.message ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Сообщение</strong></td><td style="border:1px solid #ccc;padding:4px;">${JSON.stringify(result.message)}</td></tr>` : ''}
-            ${typeof result.consent !== 'undefined' ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Согласие</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.consent ? 'Да' : 'Нет'}</td></tr>` : ''}
+            <tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Источник формы</td><td style="border:1px solid #ccc;padding:8px;">${mailSubjectName}</td></tr>
+            ${result.name ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Имя</td><td style="border:1px solid #ccc;padding:8px;">${result.name}</td></tr>` : ''}
+            ${result.email ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Email</td><td style="border:1px solid #ccc;padding:8px;">${result.email}</td></tr>` : ''}
+            ${result.phone ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Телефон</td><td style="border:1px solid #ccc;padding:8px;">${result.phone}</td></tr>` : ''}
+            ${result.company ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Компания</td><td style="border:1px solid #ccc;padding:8px;">${result.company}</td></tr>` : ''}
+            ${result.position ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Должность</td><td style="border:1px solid #ccc;padding:8px;">${result.position}</td></tr>` : ''}
+            ${result.message ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Сообщение</td><td style="border:1px solid #ccc;padding:8px;">[Контент Rich Text] См. в админке.</td></tr>` : ''}
+            ${typeof result.consent !== 'undefined' ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Согласие на ОПД</td><td style="border:1px solid #ccc;padding:8px;">${result.consent ? 'Да' : 'Нет'}</td></tr>` : ''}
           </table>
         `;
 
         await transporter.sendMail({
           from: process.env.SMTP_FROM,
-          to: 'info@interimjob.ru',
-          subject: `Новая заявка: ${result.formName}`,
+          to: process.env.MAIL_TO_ADDRESS || 'info@interimjob.ru',
+          subject: `Новая заявка: ${mailSubjectName}`,
           html: mailHtml,
         });
 
@@ -45,10 +50,13 @@ export default {
             data: { emailSent: true },
           });
 
-        strapi.log.info(`Email отправлен (application-request)`);
+        strapi.log.info(`[${timestamp}] Email успешно отправлен для ID: ${result.id}`);
+
       } catch (err) {
-        strapi.log.error('Ошибка отправки email (application-request):', err);
+        strapi.log.error(`[${timestamp}] Ошибка отправки email для application-request ID ${result.id}:`, err);
       }
+    } else {
+      strapi.log.info(`[${timestamp}] Email для ID ${result.id} уже был отправлен.`);
     }
   },
 };
