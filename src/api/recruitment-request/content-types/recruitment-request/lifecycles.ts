@@ -6,7 +6,6 @@ export default {
 
     strapi.log.info('afterCreate triggered for ID:', result.id);
 
-    // Проверяем поле emailSent, чтобы не отправлять письмо дважды
     if (!result.emailSent) {
       try {
         const transporter = nodemailer.createTransport({
@@ -20,45 +19,35 @@ export default {
         });
 
         const mailHtml = `
-          <h2>Новая заявка на подбор персонала</h2>
+          <h2>Новая заявка: ${result.formName}</h2>
           <table style="border-collapse: collapse; width: 100%;">
-            <tr>
-              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Имя</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Email</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.email}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Телефон</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.phone}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Должность</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.role}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Согласие на обработку данных</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.agreed ? 'Да' : 'Нет'}</td>
-            </tr>
+            ${result.name ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Имя</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.name}</td></tr>` : ''}
+            ${result.email ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Email</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.email}</td></tr>` : ''}
+            ${result.phone ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Телефон</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.phone}</td></tr>` : ''}
+            ${result.role ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Должность</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.role}</td></tr>` : ''}
+            ${result.company ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Компания</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.company}</td></tr>` : ''}
+            ${result.message ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Сообщение</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.message}</td></tr>` : ''}
+            ${typeof result.agreed !== 'undefined' ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Согласие</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.agreed ? 'Да' : 'Нет'}</td></tr>` : ''}
           </table>
         `;
 
         await transporter.sendMail({
           from: process.env.SMTP_FROM,
           to: 'info@interimjob.ru',
-          subject: 'Новая заявка на подбор персонала',
+          subject: `Новая заявка: ${result.formName}`,
           html: mailHtml,
         });
 
-        // Обновляем запись в Strapi, чтобы больше не отправлять письмо
-        await strapi.db.query('api::recruitment-request.recruitment-request').update({
-          where: { id: result.id },
-          data: { emailSent: true },
-        });
+
+        await strapi.db
+          .query(result.uid || 'api::recruitment-request.recruitment-request')
+          .update({
+            where: { id: result.id },
+            data: { emailSent: true },
+          });
 
         strapi.log.info(`Email отправлен на info@interimjob.ru`);
+
       } catch (err) {
         strapi.log.error('Ошибка отправки email:', err);
       }
