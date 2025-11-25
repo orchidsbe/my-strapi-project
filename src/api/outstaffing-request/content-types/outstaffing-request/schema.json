@@ -26,6 +26,10 @@
     "formName": {
       "type": "string",
       "required": true
+    },
+    "emailSent": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
