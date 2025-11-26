@@ -3,24 +3,27 @@
 import nodemailer from 'nodemailer';
 
 export default {
-  // Оборачиваем ВСЮ функцию в try...catch для предотвращения ошибки 500 на фронтенде
+  // ----------------------------------------------------------------------
+  // Оборачиваем ВСЮ функцию в try...catch для ПРЕДОТВРАЩЕНИЯ ошибки 500
+  // ----------------------------------------------------------------------
   async afterCreate(event) {
     const { result } = event;
     const mailSubjectName = result.formName || 'О нас';
     const timestamp = new Date().toISOString();
 
     try {
+      // Логирование до блока if
       strapi.log.info(`[${timestamp}] afterCreate triggered for ${event.model.uid} ID: ${result.id}`);
 
       if (!result.emailSent) {
 
-        // secure: true только для порта 465 (SSL/TLS). Для порта 587 (STARTTLS) это false.
+        // Корректно определяем secure: true ТОЛЬКО для порта 465. Для 587 secure: false (STARTTLS).
         const isSecure = parseInt(process.env.SMTP_PORT, 10) === 465;
 
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT, 10),
-          secure: isSecure,
+          secure: isSecure, // Используем вычисленное значение
           auth: {
             user: process.env.SMTP_USERNAME,
             pass: process.env.SMTP_PASSWORD,
@@ -47,6 +50,7 @@ export default {
           html: mailHtml,
         });
 
+        // Используем универсальный event.model.uid
         await strapi.db
           .query(event.model.uid)
           .update({

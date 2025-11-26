@@ -107,6 +107,43 @@ export interface AdminApiTokenPermission extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface AdminAuditLog extends Struct.CollectionTypeSchema {
+  collectionName: 'strapi_audit_logs';
+  info: {
+    displayName: 'Audit Log';
+    pluralName: 'audit-logs';
+    singularName: 'audit-log';
+  };
+  options: {
+    draftAndPublish: false;
+    timestamps: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    action: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'admin::audit-log'> &
+      Schema.Attribute.Private;
+    payload: Schema.Attribute.JSON;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -390,6 +427,8 @@ export interface ApiAboutPageRequestAboutPageRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -423,6 +462,8 @@ export interface ApiApplicationForTrainingApplicationForTraining
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -460,6 +501,8 @@ export interface ApiApplicationRequestApplicationRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -494,6 +537,8 @@ export interface ApiCallbackRequestCallbackRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -527,6 +572,8 @@ export interface ApiCandidatesRequestCandidatesRequest
       Schema.Attribute.Private;
     desiredPosition: Schema.Attribute.String;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -559,6 +606,8 @@ export interface ApiComplianceRequestComplianceRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -592,7 +641,9 @@ export interface ApiConsultationConsultation
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     format: Schema.Attribute.String;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     goal: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -628,6 +679,8 @@ export interface ApiContactRequestContactRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -661,6 +714,8 @@ export interface ApiContactSubmissionContactSubmission
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -694,6 +749,8 @@ export interface ApiCorporateRequestCorporateRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -726,6 +783,8 @@ export interface ApiCorporateSolutionsRequestCorporateSolutionsRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -758,6 +817,8 @@ export interface ApiEfficiencyRequestEfficiencyRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -791,7 +852,9 @@ export interface ApiEnrollmentEnrollment extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     format: Schema.Attribute.String;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -825,8 +888,10 @@ export interface ApiEventRegistrationEventRegistration
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     eventDate: Schema.Attribute.String;
     eventTitle: Schema.Attribute.String;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -860,8 +925,10 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     desc: Schema.Attribute.Blocks;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     end: Schema.Attribute.DateTime;
     format: Schema.Attribute.String;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
@@ -897,6 +964,8 @@ export interface ApiFeedbackFeedback extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.String & Schema.Attribute.Required;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -929,6 +998,8 @@ export interface ApiHrConsultingRequestHrConsultingRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -964,6 +1035,8 @@ export interface ApiHrLoadRequestHrLoadRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -996,6 +1069,8 @@ export interface ApiInquiryInquiry extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     interests: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1029,7 +1104,9 @@ export interface ApiJobApplicationJobApplication
       Schema.Attribute.Private;
     desiredRole: Schema.Attribute.String;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     experienceSummary: Schema.Attribute.Text;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1060,6 +1137,8 @@ export interface ApiLeadLead extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::lead.lead'> &
       Schema.Attribute.Private;
@@ -1091,6 +1170,8 @@ export interface ApiLearningProgramLearningProgram
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1123,6 +1204,8 @@ export interface ApiNewsletterSubscriberNewsletterSubscriber
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1154,6 +1237,8 @@ export interface ApiOutsourcingRequestOutsourcingRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1186,6 +1271,8 @@ export interface ApiOutstaffingRequestOutstaffingRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1221,6 +1308,8 @@ export interface ApiPartnerApplicationPartnerApplication
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1254,6 +1343,8 @@ export interface ApiPartnershipRequestPartnershipRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1321,6 +1412,8 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1356,6 +1449,8 @@ export interface ApiRareTalentRequestRareTalentRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1390,6 +1485,8 @@ export interface ApiRecruitmentRequestRecruitmentRequest
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
     emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'\u041F\u043E\u0434\u0431\u043E\u0440 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u0430'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1422,6 +1519,8 @@ export interface ApiReliabilityRequestReliabilityRequest
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1453,6 +1552,8 @@ export interface ApiResourceSuggestionResourceSuggestion
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1483,7 +1584,9 @@ export interface ApiResponseResponse extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     experience: Schema.Attribute.String;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     link: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1519,6 +1622,8 @@ export interface ApiReviewsSubmissionReviewsSubmission
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1551,6 +1656,8 @@ export interface ApiServicesRequestServicesRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1583,6 +1690,8 @@ export interface ApiSolutionsRequestSolutionsRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1615,6 +1724,8 @@ export interface ApiSubscriptionSubscription
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1645,6 +1756,8 @@ export interface ApiSupportRequestSupportRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1676,6 +1789,8 @@ export interface ApiTemporaryStaffRequestTemporaryStaffRequest
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.Email;
+    emailSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    formName: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -2196,6 +2311,7 @@ declare module '@strapi/strapi' {
     export interface ContentTypeSchemas {
       'admin::api-token': AdminApiToken;
       'admin::api-token-permission': AdminApiTokenPermission;
+      'admin::audit-log': AdminAuditLog;
       'admin::permission': AdminPermission;
       'admin::role': AdminRole;
       'admin::transfer-token': AdminTransferToken;
