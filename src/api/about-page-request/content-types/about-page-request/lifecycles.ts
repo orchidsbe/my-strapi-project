@@ -1,20 +1,32 @@
+// src/api/about-page-request/lifecycles.js
+
 import nodemailer from 'nodemailer';
 
 export default {
   async afterCreate(event) {
     const { result } = event;
 
-    const mailSubjectName = result.formName || 'О нас';
-
+    // ----------------------------------------------------
+    // ✅ ИСПРАВЛЕНИЕ: Объявляем timestamp здесь, чтобы он был 
+    // виден в любом месте функции (включая catch)
+    // ----------------------------------------------------
     const timestamp = new Date().toISOString();
-    strapi.log.info(`[${timestamp}] afterCreate triggered for about-page-request ID: ${result.id}`);
 
-    if (!result.emailSent) {
-      try {
+    try {
+      const mailSubjectName = result.formName || 'О нас';
+
+      // Теперь переменная timestamp доступна и используется здесь:
+      strapi.log.info(`[${timestamp}] afterCreate triggered for ${event.model.uid} ID: ${result.id}`);
+
+      if (!result.emailSent) {
+        // ... остальной код (создание transporter, отправка email)
+
+        const isSecure = parseInt(process.env.SMTP_PORT, 10) === 465;
+
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT, 10),
-          secure: process.env.SMTP_SECURE === 'true',
+          secure: isSecure,
           auth: {
             user: process.env.SMTP_USERNAME,
             pass: process.env.SMTP_PASSWORD,
@@ -22,17 +34,17 @@ export default {
         });
 
         const mailHtml = `
-          <h2>Новая заявка: ${mailSubjectName}</h2>
-          <p>ID заявки: ${result.id}</p>
-          <table style="border-collapse: collapse; width: 100%;">
-            <tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Источник формы</td><td style="border:1px solid #ccc;padding:8px;">${mailSubjectName}</td></tr>
-            ${result.name ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Имя</td><td style="border:1px solid #ccc;padding:8px;">${result.name}</td></tr>` : ''}
-            ${result.email ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Email</td><td style="border:1px solid #ccc;padding:8px;">${result.email}</td></tr>` : ''}
-            ${result.phone ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Телефон</td><td style="border:1px solid #ccc;padding:8px;">${result.phone}</td></tr>` : ''}
-            ${result.company ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Компания</td><td style="border:1px solid #ccc;padding:8px;">${result.company}</td></tr>` : ''}
-            ${result.message ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Сообщение</td><td style="border:1px solid #ccc;padding:8px;">${result.message}</td></tr>` : ''}
-          </table>
-        `;
+              <h2>Новая заявка: ${mailSubjectName}</h2>
+              <p>ID заявки: ${result.id}</p>
+              <table style="border-collapse: collapse; width: 100%;">
+                <tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Источник формы</td><td style="border:1px solid #ccc;padding:8px;">${mailSubjectName}</td></tr>
+                ${result.name ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Имя</td><td style="border:1px solid #ccc;padding:8px;">${result.name}</td></tr>` : ''}
+                ${result.email ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Email</td><td style="border:1px solid #ccc;padding:8px;">${result.email}</td></tr>` : ''}
+                ${result.phone ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Телефон</td><td style="border:1px solid #ccc;padding:8px;">${result.phone}</td></tr>` : ''}
+                ${result.company ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Компания</td><td style="border:1px solid #ccc;padding:8px;">${result.company}</td></tr>` : ''}
+                ${result.message ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Сообщение</td><td style="border:1px solid #ccc;padding:8px;">${result.message}</td></tr>` : ''}
+              </table>
+            `;
 
         await transporter.sendMail({
           from: process.env.SMTP_FROM,
@@ -42,7 +54,7 @@ export default {
         });
 
         await strapi.db
-          .query('api::about-page-request.about-page-request')
+          .query(event.model.uid)
           .update({
             where: { id: result.id },
             data: { emailSent: true },
@@ -50,11 +62,13 @@ export default {
 
         strapi.log.info(`[${timestamp}] Email успешно отправлен для ID: ${result.id}`);
 
-      } catch (err) {
-        strapi.log.error(`[${timestamp}] Ошибка отправки email для about-page-request ID ${result.id}:`, err);
+      } else {
+        strapi.log.info(`[${timestamp}] Email для ID ${result.id} уже был отправлен.`);
       }
-    } else {
-      strapi.log.info(`[${timestamp}] Email для ID ${result.id} уже был отправлен.`);
+
+    } catch (err) {
+      // Теперь переменная timestamp доступна и используется здесь:
+      strapi.log.error(`[${timestamp}] КРИТИЧЕСКАЯ ОШИБКА в afterCreate для ID ${event.result.id}:`, err);
     }
   },
 };
