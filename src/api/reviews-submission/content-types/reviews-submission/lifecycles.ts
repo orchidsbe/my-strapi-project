@@ -25,7 +25,6 @@ export default {
             ${result.author ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Автор</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.author}</td></tr>` : ''}
             ${result.rating ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Рейтинг</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.rating}</td></tr>` : ''}
             ${result.review_text ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Отзыв</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.review_text}</td></tr>` : ''}
-            ${result.source ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Источник</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.source}</td></tr>` : ''}
           </table>
         `;
 

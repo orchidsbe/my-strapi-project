@@ -23,7 +23,6 @@ export default {
 
         const mailHtml = `
           <h2>Новая заявка: ${mailSubjectName}</h2>
-          <p>ID заявки: ${result.id}</p>
           <table style="border-collapse: collapse; width: 100%;">
             <tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Источник формы</td><td style="border:1px solid #ccc;padding:8px;">${mailSubjectName}</td></tr>
             ${result.name ? `<tr><td style="border:1px solid #ccc;padding:8px;font-weight:bold;">Имя</td><td style="border:1px solid #ccc;padding:8px;">${result.name}</td></tr>` : ''}

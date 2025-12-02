@@ -25,7 +25,6 @@ export default {
             ${result.email ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Email</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.email}</td></tr>` : ''}
             ${result.company ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Компания</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.company}</td></tr>` : ''}
             ${result.interests ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Интересы</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.interests}</td></tr>` : ''}
-            ${result.source ? `<tr><td style="border:1px solid #ccc;padding:4px;"><strong>Источник</strong></td><td style="border:1px solid #ccc;padding:4px;">${result.source}</td></tr>` : ''}
           </table>
         `;
 

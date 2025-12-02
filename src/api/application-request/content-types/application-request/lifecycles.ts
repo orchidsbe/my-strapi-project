@@ -18,8 +18,21 @@ export default {
           },
         });
 
+        let messageText = '-';
+        if (result.message) {
+          if (Array.isArray(result.message)) {
+            messageText = result.message.map(block => {
+              if (block.type === 'paragraph') return block.data?.text || '';
+              if (block.type === 'header') return block.data?.text || '';
+              return '';
+            }).filter(Boolean).join('<br>');
+          } else if (typeof result.message === 'string') {
+            messageText = result.message;
+          }
+        }
+
         const mailHtml = `
-          <h2>Новая заявка на подбор персонала</h2>
+          <h2>Новая заявка: Оставить заявку</h2>
           <table style="border-collapse: collapse; width: 100%;">
             <tr>
               <td style="padding: 4px; border: 1px solid #ccc;"><strong>Имя</strong></td>
@@ -35,11 +48,11 @@ export default {
             </tr>
             <tr>
               <td style="padding: 4px; border: 1px solid #ccc;"><strong>Должность</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.position}</td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.position || result.role || '-'}</td>
             </tr>
             <tr>
-             <td style="padding: 4px; border: 1px solid #ccc;"><strong>Требования к кандидату</strong></td>
-             <td>${result.message ? JSON.stringify(result.message) : '-'}</td>
+              <td style="padding: 4px; border: 1px solid #ccc;"><strong>Требования к кандидату</strong></td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${messageText}</td>
             </tr>
             <tr>
               <td style="padding: 4px; border: 1px solid #ccc;"><strong>Согласие на обработку данных</strong></td>
@@ -51,7 +64,7 @@ export default {
         await transporter.sendMail({
           from: process.env.SMTP_FROM,
           to: 'info@interimjob.ru',
-          subject: 'Новая заявка на подбор персонала',
+          subject: 'Новая заявка: Оставить заявку',
           html: mailHtml,
         });
 
