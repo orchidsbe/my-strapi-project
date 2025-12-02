@@ -18,23 +18,7 @@ export default {
           },
         });
 
-        let messageText = '-';
-        if (result.message) {
-          let blocks = [];
-          if (typeof result.message === 'string') {
-            try {
-              blocks = JSON.parse(result.message);
-            } catch (e) {
-              blocks = [];
-            }
-          } else if (Array.isArray(result.message)) {
-            blocks = result.message;
-          }
-
-          if (blocks.length) {
-            messageText = blocks.map(block => block.data?.text || '').filter(Boolean).join('<br>');
-          }
-        }
+        const messageText = result.message || '-';
 
         const mailHtml = `
           <h2>Новая заявка: Оставить заявку</h2>
