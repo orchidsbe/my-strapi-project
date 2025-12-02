@@ -20,14 +20,19 @@ export default {
 
         let messageText = '-';
         if (result.message) {
-          if (Array.isArray(result.message)) {
-            messageText = result.message.map(block => {
-              if (block.type === 'paragraph') return block.data?.text || '';
-              if (block.type === 'header') return block.data?.text || '';
-              return '';
-            }).filter(Boolean).join('<br>');
-          } else if (typeof result.message === 'string') {
-            messageText = result.message;
+          let blocks = [];
+          if (typeof result.message === 'string') {
+            try {
+              blocks = JSON.parse(result.message);
+            } catch (e) {
+              blocks = [];
+            }
+          } else if (Array.isArray(result.message)) {
+            blocks = result.message;
+          }
+
+          if (blocks.length) {
+            messageText = blocks.map(block => block.data?.text || '').filter(Boolean).join('<br>');
           }
         }
 
