@@ -27,7 +27,7 @@
       "type": "string"
     },
     "message": {
-      "type": "blocks"
+      "type": "string"
     },
     "consent": {
       "type": "boolean"
