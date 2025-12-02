@@ -3,14 +3,15 @@ import nodemailer from 'nodemailer';
 export default {
   async afterCreate(event) {
     const { result } = event;
-    const mailSubjectName = result.formName || 'О нас';
-    const timestamp = new Date().toISOString();
 
+    const mailSubjectName = result.formName || 'О нас';
+
+    const timestamp = new Date().toISOString();
     strapi.log.info(`[${timestamp}] afterCreate triggered for about-page-request ID: ${result.id}`);
 
     if (!result.emailSent) {
       try {
-        const transporter = nodemailer.createTransporter({  // ← Маленький апдейт: используй createTransporter для consistency
+        const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT, 10),
           secure: process.env.SMTP_SECURE === 'true',
@@ -40,23 +41,20 @@ export default {
           html: mailHtml,
         });
 
-        // ← ФИКС: Используем entityService + НЕ возвращаем результат явно
-        await strapi.entityService.update('api::about-page-request.about-page-request', result.id, {
-          data: { emailSent: true },
-        });
-        // Результат обновления игнорируется, потому что дальше return;
+        await strapi.db
+          .query('api::about-page-request.about-page-request')
+          .update({
+            where: { id: result.id },
+            data: { emailSent: true },
+          });
 
-        strapi.log.info(`[${timestamp}] Email успешно отправлен и флаг обновлён для ID: ${result.id}`);
+        strapi.log.info(`[${timestamp}] Email успешно отправлен для ID: ${result.id}`);
 
       } catch (err) {
-        strapi.log.error(`[${timestamp}] Ошибка отправки email для ID ${result.id}:`, err);
-        // ← Здесь НЕ throw — клиент не узнает об ошибке письма
+        strapi.log.error(`[${timestamp}] Ошибка отправки email для about-page-request ID ${result.id}:`, err);
       }
     } else {
       strapi.log.info(`[${timestamp}] Email для ID ${result.id} уже был отправлен.`);
     }
-
-    // ← КЛЮЧЕВОЙ ФИКС: Явно ничего не возвращаем
-    return;
   },
 };

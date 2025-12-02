@@ -6,12 +6,12 @@ export default {
 
     strapi.log.info('afterCreate triggered for ID:', result.id);
 
-    if (!result._emailSent) {
+    if (!result.emailSent) {
       try {
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT, 10),
-          secure: false, 
+          secure: false,
           auth: {
             user: process.env.SMTP_USERNAME,
             pass: process.env.SMTP_PASSWORD,
@@ -35,11 +35,15 @@ export default {
             </tr>
             <tr>
               <td style="padding: 4px; border: 1px solid #ccc;"><strong>Должность</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.role}</td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.position}</td>
+            </tr>
+            <tr>
+             <td style="padding: 4px; border: 1px solid #ccc;"><strong>Требования к кандидату</strong></td>
+             <td>${result.message ? JSON.stringify(result.message) : '-'}</td>
             </tr>
             <tr>
               <td style="padding: 4px; border: 1px solid #ccc;"><strong>Согласие на обработку данных</strong></td>
-              <td style="padding: 4px; border: 1px solid #ccc;">${result.agreed ? 'Да' : 'Нет'}</td>
+              <td style="padding: 4px; border: 1px solid #ccc;">${result.consent ? 'Да' : 'Нет'}</td>
             </tr>
           </table>
         `;
@@ -51,10 +55,12 @@ export default {
           html: mailHtml,
         });
 
-        result._emailSent = true;
+        await strapi.db.query('api::application-request.application-request').update({
+          where: { id: result.id },
+          data: { emailSent: true },
+        });
 
         strapi.log.info(`Email отправлен на info@interimjob.ru`);
-
       } catch (err) {
         strapi.log.error('Ошибка отправки email:', err);
       }
